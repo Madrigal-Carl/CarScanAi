@@ -65,7 +65,7 @@ document.addEventListener('DOMContentLoaded', () => {
             formData.append("file", file);
 
             try {
-                const response = await fetch("http://localhost:8000/predict", {
+                const response = await fetch("https://carscanai-backend.onrender.com/predict", {
                     method: "POST",
                     body: formData
                 });
