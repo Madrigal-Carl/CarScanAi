@@ -36,6 +36,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const detectedBrand = document.getElementById("detected-brand");
     const detectedConfidence = document.getElementById("detected-confidence");
     const demoCard = document.getElementById("demo-card");
+    const loadingSpinner = document.getElementById("loading-spinner");
+    const predictionText = document.getElementById("prediction-text");
 
     uploadButton.addEventListener('click', () => {
         // Create hidden file input
@@ -65,6 +67,11 @@ document.addEventListener('DOMContentLoaded', () => {
             formData.append("file", file);
 
             try {
+                loadingSpinner.classList.remove("hidden");
+                predictionText.classList.add("hidden");
+                detectedBrand.textContent = "Processing...";
+                detectedConfidence.textContent = "—";
+
                 const response = await fetch("https://carscanai-backend.onrender.com/predict", {
                     method: "POST",
                     body: formData
@@ -91,6 +98,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 console.error(err);
                 detectedBrand.textContent = "Server Error";
                 detectedConfidence.textContent = "—";
+            } finally {
+                loadingSpinner.classList.add("hidden");
+                predictionText.classList.remove("hidden");
             }
         };
     });
